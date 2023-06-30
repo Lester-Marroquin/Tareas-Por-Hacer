@@ -20,9 +20,15 @@ const cargarDB = () => {
     }
 }
 
-const getListado = () =>{
+const getListado = (completado) => {
+
     cargarDB();
-    return listadoPorHacer;
+
+    let nuevoListado = listadoPorHacer.filter(
+        tarea => tarea.completado === completado
+    );
+
+    return nuevoListado;
 }
 
 const crear = (descripcion) => {
@@ -42,11 +48,21 @@ const crear = (descripcion) => {
 }
 
 const actualizar = (descripcion, completado = true) => {
+
+    let booleano;
+    if (completado === 'true') {
+        booleano = true;
+    } else if (completado === 'false') {
+        booleano = false;
+    } else {
+        return false;
+    }
+
     cargarDB();
     let index = listadoPorHacer.findIndex(tarea => tarea.descripcion === descripcion)
 
     if (index >= 0 ) {
-        listadoPorHacer[index].completado = completado;
+        listadoPorHacer[index].completado = booleano;
         guardaDB();
         return true;
     } else {
@@ -58,7 +74,7 @@ const borrar = (descripcion) => {
     cargarDB();
     let nuevoListado = listadoPorHacer.filter(
         tarea => tarea.descripcion !== descripcion
-        );
+    );
 
     if (listadoPorHacer.length === nuevoListado.length) {
         return false;

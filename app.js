@@ -5,32 +5,65 @@ const colors = require('colors');
 
 let comando = argv._[0];
 
-switch ( comando ) {
-    case 'crear':
-        let tarea = porHacer.crear( argv.descripcion );
-        console.log(tarea);
-        break;
+let booleano;
+if (argv.completado === 'true' || argv.completado === 'false' || argv.descripcion != "") {
 
-    case 'listar':
-        let listado = porHacer.getListado();
-        for (const tarea of listado) {
-            console.log('======== Por Hacer ========'.green);
-            console.log(tarea.descripcion);
-            console.log('Estado: ', tarea.completado);
-            console.log('==========================='.green);
-        }    
-        break;
+    if (argv.completado === 'true') {
+        booleano = true;
+    } else {
+        booleano = false;
+    }
 
-    case 'actualizar':
-        let actualizado = porHacer.actualizar(argv.descripcion, argv.completado);
-        console.log(actualizado);
-        break;
+    switch ( comando ) {
+        case 'crear':
+            let tarea = porHacer.crear( argv.descripcion );
+            console.log(tarea);
+            break;
+    
+        case 'listar':
+        let estado;
+        let estado2;
 
-    case 'borrar':
-        let borrado = porHacer.borrar(argv.descripcion);
-        console.log(borrado);
-        break;
+        let listado = porHacer.getListado(booleano);
 
-    default:
-        console.log('Comando no reconocido');;
+        if(listado.length === 0 ){
+            console.log(`======== No tienes tareas ========`.green);
+        } else if (listado.length > 0){
+        
+            if (booleano) {
+                estado = 'Tareas realizadas';
+                estado2 = 'Realizada';
+            } else {
+                estado = 'Tareas pendiente';
+                estado2 = 'Pendiente';
+            }
+    
+            console.log(`======== ${ estado } ========`.blue);
+            
+            for (const tarea of listado) {
+                console.log (`Descripción:`, tarea.descripcion.green);
+                console.log(`Estado: `, `${ estado2}`);
+            }
+            
+            console.log('==========================='.blue);
+        break;
+        }  
+        
+        case 'actualizar':
+            let actualizado = porHacer.actualizar(argv.descripcion, argv.completado);
+            console.log(actualizado);
+            break
+    
+        case 'borrar':
+            let borrado = porHacer.borrar(argv.descripcion);
+            console.log(borrado);
+            break;
+    
+        default:
+            console.log('Comando no reconocido');
+    }
+
+} else {
+    console.log('Parametro no reconocido');   
 }
+
