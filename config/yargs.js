@@ -10,8 +10,6 @@ const completado = {
     desc: 'Marca como completada o pendiente la tarea'
 };
 
-
-
 const argv = require ('yargs')
 .command('crear', 'Crea una tarea por realizar', {
     descripcion
