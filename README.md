@@ -20,29 +20,47 @@ node app crear -d "Comer"
 
 #### Para Actualizar una tarea
 ````
-node app actualizar -d Comer -c true
+node app actualizar -d "Comer" -c true
 ````
 >Para actualizar el estado a completado de una tareas, se debe de introducir la descripcion ingresada exactamente igual, por defecto el parametro -c ya contiene el valor de true, por lo cual se puede omitir true al final (esto para indicar que ya esta completada), si una tarea se colocara como pendiente debe de introducise false al final
 >>node app actualizar -d Comer -c false
 
+#### Para Borrar una tarea
+````
+node app borrar -d "Cierre"
+````
+Como respuesta se obtendra un favor "true" en caso de haberse eliminado correctamente la tarea
+
+
 #### Para Listar las tareas
+Mostrar las tareas pendientes:
 ````
-node app listar
+node app listar -c false
 ````
-El cual mostrar el resultado de la siguiente forma:
+El resultado seria:
 
->======== Por Hacer ========
+>======== Tareas pendiente ========
 
->Pasear al perro
+>Descripción: Controles
 
->Estado:  false
+>Estado:  Pendiente
 
 >===========================
 
->======== Por Hacer ========
+Mostrar las tareas completadas
+````
+node app listar -c true
+````
+El resultado seria:
 
->Comer
+>======== Tareas realizadas ========
 
->Estado:  false
+>Descripción: Cierre
+
+>Estado:  Realizada
+
+>Descripción: Pasear al perro
+
+>Estado:  Realizada
 
 >===========================
